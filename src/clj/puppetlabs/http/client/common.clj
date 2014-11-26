@@ -57,6 +57,7 @@
    (ok :ssl-cert)         UrlOrString
    (ok :ssl-key)          UrlOrString
    (ok :ssl-ca-cert)      UrlOrString
+   (ok :ssl-crls)         UrlOrString
    (ok :ssl-protocols)    [schema/Str]
    (ok :cipher-suites) [schema/Str]
    (ok :force-redirects)  schema/Bool
@@ -90,23 +91,25 @@
   {:ssl-context SSLContext})
 
 (def SslCaCertOptions
-  {:ssl-ca-cert UrlOrString})
+  {:ssl-ca-cert   UrlOrString
+   (ok :ssl-crls) UrlOrString})
 
 (def SslCertOptions
-  {:ssl-cert    UrlOrString
-   :ssl-key     UrlOrString
-   :ssl-ca-cert UrlOrString})
+  {:ssl-cert      UrlOrString
+   :ssl-key       UrlOrString
+   :ssl-ca-cert   UrlOrString
+   (ok :ssl-crls) UrlOrString})
 
 (def SslOptions
   (schema/either {} SslContextOptions SslCertOptions SslCaCertOptions))
 
 (def SslProtocolOptions
-  {(schema/optional-key :ssl-protocols) [schema/Str]
-   (schema/optional-key :cipher-suites) [schema/Str]})
+  {(ok :ssl-protocols) [schema/Str]
+   (ok :cipher-suites) [schema/Str]})
 
 (def RedirectOptions
-  {(schema/optional-key :force-redirects)  schema/Bool
-   (schema/optional-key :follow-redirects) schema/Bool})
+  {(ok :force-redirects)  schema/Bool
+   (ok :follow-redirects) schema/Bool})
 
 (def UserRequestOptions
   "A cleaned-up version of RawUserRequestClientOptions, which is formed after

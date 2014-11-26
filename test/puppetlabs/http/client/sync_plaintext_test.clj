@@ -1,9 +1,7 @@
 (ns puppetlabs.http.client.sync-plaintext-test
   (:import (com.puppetlabs.http.client Sync RequestOptions SimpleRequestOptions
-                                       HttpClientException ResponseBodyType ClientOptions)
-           (javax.net.ssl SSLHandshakeException)
+                                       ResponseBodyType ClientOptions)
            (java.io ByteArrayInputStream InputStream)
-           (java.nio.charset Charset)
            (org.apache.http.impl.nio.client HttpAsyncClients)
            (java.net URI))
   (:require [clojure.test :refer :all]

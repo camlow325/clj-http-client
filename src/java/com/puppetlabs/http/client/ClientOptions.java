@@ -10,6 +10,7 @@ public class ClientOptions {
     private String sslCert;
     private String sslKey;
     private String sslCaCert;
+    private String sslCrls;
     private String[] sslProtocols;
     private String[] sslCipherSuites;
     private boolean insecure = false;
@@ -21,6 +22,7 @@ public class ClientOptions {
                          String sslCert,
                          String sslKey,
                          String sslCaCert,
+                         String sslCrls,
                          String[] sslProtocols,
                          String[] sslCipherSuites,
                          boolean insecure,
@@ -30,6 +32,7 @@ public class ClientOptions {
         this.sslCert = sslCert;
         this.sslKey = sslKey;
         this.sslCaCert = sslCaCert;
+        this.sslCrls = sslCrls;
         this.sslProtocols = sslProtocols;
         this.sslCipherSuites = sslCipherSuites;
         this.insecure = insecure;
@@ -50,6 +53,14 @@ public class ClientOptions {
     }
     public ClientOptions setSslCert(String sslCert) {
         this.sslCert = sslCert;
+        return this;
+    }
+
+    public String getSslCrls() {
+        return sslCrls;
+    }
+    public ClientOptions setSslCrls(String sslCrls) {
+        this.sslCrls = sslCrls;
         return this;
     }
 

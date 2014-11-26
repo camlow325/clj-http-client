@@ -46,15 +46,20 @@
       (assoc :ssl-context (ssl/pems->ssl-context
                             (:ssl-cert req)
                             (:ssl-key req)
-                            (:ssl-ca-cert req)))
-      (dissoc :ssl-cert :ssl-key :ssl-ca-cert)))
+                            (:ssl-ca-cert req)
+                            (:ssl-crls req)))
+      (dissoc :ssl-cert :ssl-key :ssl-ca-cert :ssl-crls)))
 
 (defn- initialize-ssl-context-from-ca-pem
   [req]
   (-> req
-      (assoc :ssl-context (ssl/ca-cert-pem->ssl-context
-                            (:ssl-ca-cert req)))
-      (dissoc :ssl-ca-cert)))
+      (assoc :ssl-context (if-let [crls (:ssl-crls req)]
+                            (ssl/ca-cert-and-crl-pems->ssl-context
+                              (:ssl-ca-cert req)
+                              crls)
+                            (ssl/ca-cert-pem->ssl-context
+                              (:ssl-ca-cert req))))
+      (dissoc :ssl-ca-cert :ssl-crls)))
 
 (defn- configure-ssl-from-pems
   "Configures an SSLEngine in the request starting from a set of PEM files"
@@ -259,7 +264,7 @@
 
 (schema/defn extract-ssl-opts :- common/SslOptions
   [opts :- common/ClientOptions]
-  (select-keys opts [:ssl-context :ssl-ca-cert :ssl-cert :ssl-key]))
+  (select-keys opts [:ssl-context :ssl-ca-cert :ssl-cert :ssl-crls :ssl-key]))
 
 (schema/defn ^:always-validate ssl-strategy :- SSLIOSessionStrategy
   [ssl-ctxt-opts :- common/SslContextOptions

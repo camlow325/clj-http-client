@@ -12,6 +12,7 @@ public class SimpleRequestOptions {
     private String sslCert;
     private String sslKey;
     private String sslCaCert;
+    private String sslCrls;
     private String[] sslProtocols;
     private String[] sslCipherSuites;
     private boolean insecure = false;
@@ -55,6 +56,14 @@ public class SimpleRequestOptions {
     }
     public SimpleRequestOptions setSslCert(String sslCert) {
         this.sslCert = sslCert;
+        return this;
+    }
+
+    public String getSslCrls() {
+        return sslCrls;
+    }
+    public SimpleRequestOptions setSslCrls(String sslCrls) {
+        this.sslCrls = sslCrls;
         return this;
     }
 

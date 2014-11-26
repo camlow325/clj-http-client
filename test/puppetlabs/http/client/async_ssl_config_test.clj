@@ -8,10 +8,10 @@
 
 (use-fixtures :once schema-test/validate-schemas)
 
-(deftest ssl-config-with-files
-  (let [opts {:ssl-cert (resource "ssl/cert.pem")
-             :ssl-key (resource "ssl/key.pem")
-             :ssl-ca-cert (resource "ssl/ca.pem")}
+(deftest ssl-config-with-cert-key-and-ca-files
+  (let [opts {:ssl-cert    (resource "ssl/cert.pem")
+              :ssl-key     (resource "ssl/key.pem")
+              :ssl-ca-cert (resource "ssl/ca.pem")}
         configured-opts (http/configure-ssl-ctxt opts)]
 
     (testing "configure-ssl-ctxt sets up an SSLContext when given cert, key, ca-cert"
@@ -22,6 +22,23 @@
       (is (not (:ssl-key configured-opts)))
       (is (not (:ssl-ca-cert configured-opts))))))
 
+(deftest ssl-config-with-cert-key-ca-and-crls-files
+  (let [opts {:ssl-cert    (resource "ssl/cert.pem")
+              :ssl-key     (resource "ssl/key.pem")
+              :ssl-ca-cert (resource "ssl/ca.pem")
+              :ssl-crls    (resource "ssl/crl_none_revoked.pem")}
+        configured-opts (http/configure-ssl-ctxt opts)]
+
+    (testing (str "configure-ssl-ctxt sets up an SSLContext when given cert, "
+                  "key, ca-cert, and crls"
+      (is (instance? SSLContext (:ssl-context configured-opts))))
+
+    (testing "removes ssl-cert, ssl-key, ssl-ca-cert, ssl-crls"
+      (is (not (:ssl-cert configured-opts)))
+      (is (not (:ssl-key configured-opts)))
+      (is (not (:ssl-ca-cert configured-opts)))
+      (is (not (:ssl-crls configured-opts)))))))
+
 (deftest ssl-config-with-ca-file
   (let [opts {:ssl-ca-cert (resource "ssl/ca.pem")}
         configured-opts (http/configure-ssl-ctxt opts)]
@@ -31,6 +48,18 @@
 
     (testing "removes ssl-ca-cert"
       (is (not (:ssl-ca-cert configured-opts))))))
+
+(deftest ssl-config-with-ca-and-crls-files
+  (let [opts {:ssl-ca-cert (resource "ssl/ca.pem")
+              :ssl-crls    (resource "ssl/crl_none_revoked.pem")}
+        configured-opts (http/configure-ssl-ctxt opts)]
+
+    (testing "configure-ssl-ctxt sets up an SSLContext when given ca-cert"
+      (is (instance? SSLContext (:ssl-context configured-opts))))
+
+    (testing "removes ssl-ca-cert and ssl-crls"
+      (is (not (:ssl-ca-cert configured-opts)))
+      (is (not (:ssl-crls configured-opts))))))
 
 (deftest ssl-config-without-ssl-params
   (let [configured-opts (http/configure-ssl-ctxt {})]

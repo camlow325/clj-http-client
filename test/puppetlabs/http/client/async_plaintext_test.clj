@@ -1,8 +1,7 @@
 (ns puppetlabs.http.client.async-plaintext-test
-  (:import (com.puppetlabs.http.client Async RequestOptions ClientOptions SimpleRequestOptions)
+  (:import (com.puppetlabs.http.client Async RequestOptions ClientOptions)
            (org.apache.http.impl.nio.client HttpAsyncClients)
-           (java.net URI)
-           (com.puppetlabs.http.client.impl PersistentAsyncHttpClient))
+           (java.net URI))
   (:require [clojure.test :refer :all]
             [puppetlabs.http.client.test-common :refer :all]
             [puppetlabs.trapperkeeper.core :as tk]

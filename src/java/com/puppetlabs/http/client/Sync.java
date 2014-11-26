@@ -36,6 +36,7 @@ public class Sync {
         String sslCert = simpleOptions.getSslCert();
         String sslKey = simpleOptions.getSslKey();
         String sslCaCert = simpleOptions.getSslCaCert();
+        String sslCrls = simpleOptions.getSslCrls();
         String[] sslProtocols = simpleOptions.getSslProtocols();
         String[] sslCipherSuites = simpleOptions.getSslCipherSuites();
         boolean insecure = simpleOptions.getInsecure();
@@ -43,7 +44,7 @@ public class Sync {
         boolean followRedirects = simpleOptions.getFollowRedirects();
 
         return new ClientOptions(sslContext, sslCert, sslKey, sslCaCert,
-                sslProtocols, sslCipherSuites, insecure,
+                sslCrls, sslProtocols, sslCipherSuites, insecure,
                 forceRedirects, followRedirects);
     }
 

@@ -14,7 +14,7 @@
 
 (schema/defn extract-client-opts :- common/ClientOptions
   [opts :- common/RawUserRequestClientOptions]
-  (select-keys opts [:ssl-context :ssl-ca-cert :ssl-cert :ssl-key
+  (select-keys opts [:ssl-context :ssl-ca-cert :ssl-cert :ssl-crls :ssl-key
                      :ssl-protocols :cipher-suites
                      :force-redirects :follow-redirects]))
 
